@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Proxy Checker</title>
+</head>
+<body>
+  <h1>Proxy Status</h1>
+  <p>Refreshing in <span id="countdown"><%= countdown %></span> seconds...</p>
+
+  <h2>Working Proxies:</h2>
+  <ul>
+    <% workingProxies.forEach(proxy => { %>
+      <li><%= proxy.ip %>:<%= proxy.port %> (Status: <%= proxy.status %>, Speed: <%= proxy.speed %>ms)</li>
+    <% }); %>
+  </ul>
+
+  <button onclick="refreshPage()">Refresh Now</button>
+
+  <script>
+    function updateCountdown() {
+      var countdownElement = document.getElementById('countdown');
+      var countdownValue = parseInt(countdownElement.textContent);
+
+      if (countdownValue > 0) {
+        countdownValue--;
+        countdownElement.textContent = countdownValue;
+      } else {
+        refreshPage(); // Refresh the page when countdown reaches 0
+      }
+    }
+
+    function refreshPage() {
+      location.href = '/refresh'; // Trigger the page refresh and proxy recheck
+    }
+
+    // Start the countdown and update it every second
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
